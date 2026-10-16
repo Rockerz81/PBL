@@ -1,0 +1,28 @@
+
+# Compiled object files
+*.o
+*.obj
+
+# Executable files
+*.exe
+*.out
+*.dll
+*.so
+*.a
+*.lib
+
+# Debug and build artifacts
+*.pdb
+*.ilk
+*.class
+build/
+bin/
+dist/
+
+# IDE and editor files
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.log
