@@ -1,0 +1,9 @@
+{
+  "bbox": { "south": 30.31, "west": 78.02, "north": 30.34, "east": 78.06 },
+  "depot": { "lat": 30.3256, "lon": 78.0437 },
+  "customers": [],
+  "truckSpeedKmh": 40.0,
+  "timeScale": 25.0,
+  "overpassUrl": "https://overpass-api.de/api/interpreter",
+  "networkCachePath": "data/network_cache.txt"
+}
