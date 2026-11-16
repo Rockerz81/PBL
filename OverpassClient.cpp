@@ -34,6 +34,15 @@ struct CurlGlobal {
 // RAII: easy handle is always released, even when we throw.
 using CurlHandle = std::unique_ptr<CURL, decltype(&curl_easy_cleanup)>;
 
+// Expand common abbreviations that Nominatim does not match well.
+std::string expandAbbreviation(const std::string& name) {
+    std::string upper = name;
+    std::transform(upper.begin(), upper.end(), upper.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
+    if (upper == "ISBT") return "Inter State Bus Terminal";
+    return name;
+}
+
 }  // namespace
 
 OverpassClient::OverpassClient(std::string endpoint, long timeoutSeconds)
@@ -188,14 +197,17 @@ GeoPoint OverpassClient::geocodePlace(const std::string& name, const BoundingBox
     static CurlGlobal globalInit;
     CurlHandle curl(curl_easy_init(), &curl_easy_cleanup);
     if (!curl) throw NetworkError("curl_easy_init failed");
-    // Encode the user text as a query parameter.
-    std::string query = name + ", Dehradun, Uttarakhand, India";
+    // Encode the user text as a query parameter. Abbreviations like ISBT are
+    // expanded first because Nominatim matches the full official name better.
+    std::string query = expandAbbreviation(name) + ", Dehradun, Uttarakhand, India";
     std::unique_ptr<char, decltype(&curl_free)> escaped(
         curl_easy_escape(curl.get(), query.c_str(), static_cast<int>(query.size())), &curl_free);
     if (!escaped) throw NetworkError("curl_easy_escape failed");
+    // bounded=0: the viewbox only BIASES results toward the map area instead of hiding
+    // everything outside it. The range check below then gives a clear "outside the map" error.
     const std::string url = "https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&viewbox=" +
         std::to_string(b.west) + "," + std::to_string(b.north) + "," +
-        std::to_string(b.east) + "," + std::to_string(b.south) + "&bounded=1&q=" + escaped.get();
+        std::to_string(b.east) + "," + std::to_string(b.south) + "&bounded=0&q=" + escaped.get();
     std::string response;
     curl_easy_setopt(curl.get(), CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl.get(), CURLOPT_HTTPGET, 1L);
@@ -211,7 +223,7 @@ GeoPoint OverpassClient::geocodePlace(const std::string& name, const BoundingBox
     json doc;
     try { doc = json::parse(response); }
     catch (const json::exception& e) { throw ParseError(std::string("Geocoding JSON error: ") + e.what()); }
-    if (!doc.is_array() || doc.empty()) throw NetworkError("No matching place found inside the configured map area.");
+    if (!doc.is_array() || doc.empty()) throw NetworkError("No matching place found. Try the full name (e.g. Inter State Bus Terminal).");
     const auto& first = doc[0];
     GeoPoint p{std::stod(first.at("lat").get<std::string>()), std::stod(first.at("lon").get<std::string>())};
     if (p.lat < b.south || p.lat > b.north || p.lon < b.west || p.lon > b.east)
