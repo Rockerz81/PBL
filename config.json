@@ -1,6 +1,14 @@
 {
-  "bbox": { "south": 30.31, "west": 78.02, "north": 30.34, "east": 78.06 },
-  "depot": { "lat": 30.3256, "lon": 78.0437 },
+  "bbox": {
+    "south": 30.27,
+    "west": 77.98,
+    "north": 30.34,
+    "east": 78.06
+  },
+  "depot": {
+    "lat": 30.3256,
+    "lon": 78.0437
+  },
   "customers": [],
   "truckSpeedKmh": 40.0,
   "timeScale": 25.0,
