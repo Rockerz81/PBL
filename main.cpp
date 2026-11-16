@@ -130,7 +130,7 @@ int main(int argc, char** argv) {
             auto namedPlaces = OverpassClient(cfg.overpassUrl).fetchNamedPlaces(cfg.bbox);
             std::cout << "Loaded " << namedPlaces.size() << " named map places.\n";
             renderer.setNamedPlaces(std::move(namedPlaces));
-            status = "Loaded named map labels. Press N to enter a destination name.";
+            status = "Loaded named map labels. Zoom in to see them. Press N to enter a destination name.";
         } catch (const LogisticsError& e) {
             status = std::string("Place labels unavailable: ") + e.what();
             std::cerr << status << '\n';
@@ -168,6 +168,7 @@ int main(int argc, char** argv) {
                     else manager.togglePause();
                 }
                 if (IsKeyPressed(KEY_R)) manager.reset();
+                if (IsKeyPressed(KEY_H)) renderer.toggleHelp();  // show/hide the controls text in the HUD
                 if (IsKeyPressed(KEY_O)) {
                     manager.reorderCustomersNearestFirst();
                     manager.planRoute();
