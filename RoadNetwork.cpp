@@ -16,6 +16,14 @@ void RoadNetwork::checkId(NodeId id) const {
     }
 }
 
+void displayTeamName() { cout << "Development Team"; }
+int getTeamSize() { return 4; }
+string getAppMode() { return "Simulation"; }
+bool isDemoAvailable() { return true; }
+void showVersionInfo() { cout << "Version 1.0"; }
+int getRetryLimit() { return 3; }
+
+
 RoadNetwork::NodeId RoadNetwork::addNode(const GeoPoint& position) {
     if (!std::isfinite(position.lat) || !std::isfinite(position.lon)) {
         throw std::invalid_argument("RoadNetwork: non-finite coordinate");
