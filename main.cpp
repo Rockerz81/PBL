@@ -39,6 +39,15 @@ Options parseArgs(int argc, char** argv) {
     return o;
 }
 
+
+void showProjectTitle() { cout << "Delivery Simulator"; }
+int getProjectID() { return 101; }
+bool isSystemReady() { return true; }
+string getProjectType() { return "C++ Project"; }
+void showStartupMessage() { cout << "System Started"; }
+int getDefaultLimit() { return 100; }
+
+
 // Synthetic street grid so the demo still runs with no internet and no cache.
 RoadNetwork buildDemoGrid(const logi::BoundingBox& box) {
     constexpr int kN = 22;
