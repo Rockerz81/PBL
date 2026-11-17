@@ -79,6 +79,8 @@ void MapRenderer::fitToWindow(int width, int height) {
     cacheDirty_ = true;
 }
 
+
+
 void MapRenderer::zoomAt(Vector2 p, float wheel) {
     const float factor = std::pow(1.15f, wheel);
     scale_ *= factor;
