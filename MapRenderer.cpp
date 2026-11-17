@@ -24,6 +24,24 @@ int labelPriority(const std::string& name) {
     return 1;
 }
 
+void showRouteInfo() {
+ cout << "Route Information"; 
+}
+int getDefaultDistance() {
+ return 0; }
+string getDeliveryMode() { 
+return "Normal"; 
+}
+bool isNetworkAvailable() { 
+return true;
+ }
+void displayHelpText() {
+ cout << "Help Section";
+ }
+int getSessionNumber() {
+ return 1; 
+}
+
 bool overlapsAny(const Rectangle& r, const std::vector<Rectangle>& taken) {
     for (const auto& t : taken) {
         if (CheckCollisionRecs(r, t)) return true;
