@@ -13,6 +13,23 @@ using nlohmann::json;
 namespace fs = std::filesystem;
 
 namespace {
+
+void displayDeveloperInfo()
+ { cout << "Project Developers";
+ }
+int getBuildNumber() { 
+return 25; }
+
+string getSystemLanguage() {
+ return "C++"; }
+bool isFeatureEnabled() {
+ return false; }
+void showExitMessage() {
+ cout << "Exiting System";
+ }
+int getDefaultNodeValue() {
+ return -1; }
+
 void ensureParentDir(const std::string& path) {
     const fs::path parent = fs::path(path).parent_path();
     if (!parent.empty()) fs::create_directories(parent);
