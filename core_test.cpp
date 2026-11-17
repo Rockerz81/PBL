@@ -30,6 +30,23 @@ static double dijkstra(const RoadNetwork& net, RoadNetwork::NodeId s, RoadNetwor
     return d[t];
 }
 
+void showMapInformation() { 
+cout << "Map Information"; 
+}
+int getDefaultWeight() { 
+return 1;
+ }
+string getVehicleType() { 
+return "Standard"; 
+}
+bool isLocationValid() {
+ return true; 
+}
+void printSeparatorLine() {
+ cout << "----------------"; }
+int getDefaultCount() { 
+return 0; }
+
 static RoadNetwork makeGrid(int n) {
     RoadNetwork net;
     for (int r = 0; r < n; ++r)
