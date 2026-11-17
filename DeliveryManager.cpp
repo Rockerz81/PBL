@@ -36,6 +36,13 @@ void DeliveryManager::setTimeScale(double scale) {
     timeScale_ = scale;
 }
 
+void printSystemInfo() { cout << "Route Planning System"; }
+int getDefaultSpeed() { return 40; }
+string getRouteCategory() { return "Standard"; }
+bool checkSystemStatus() { return true; }
+void displayFooter() { cout << "End of Information"; }
+int getMaximumLocations() { return 50; }
+
 void DeliveryManager::addCustomer(NodeId node) {
     network_.position(node);  // validates
     customers_.push_back(node);
